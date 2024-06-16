@@ -1,12 +1,14 @@
 import Link from "next/link";
+import { Suspense } from "react";
 
 export default async function posts() {
-
+  
   const response = await fetch("https://dummyjson.com/posts?limit=10");
   const data = await response.json()
   return (
     <main className="pt-32 px-5 text-center">
       <h1 className="text-4xl md:text-5xl font-bold mb-5"> All posts </h1>
+      <Suspense fallback="Loading...">
       <ul>
         {
           data.posts.map((post) => {
@@ -18,6 +20,7 @@ export default async function posts() {
           })
         }
       </ul>
+      </Suspense>
     </main>
   )
 }
