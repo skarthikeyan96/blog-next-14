@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {LoginLink, LogoutLink, useKindeBrowserClient} from "@kinde-oss/kinde-auth-nextjs";
 
 const navLinks = [
     {
@@ -16,12 +17,15 @@ const navLinks = [
     {
         href: "/create-post",
         label: "Create post"
-    },
+    }
 
 ]
 const Header = () => {
     const pathname = usePathname();
     console.log(pathname)
+    const { user } = useKindeBrowserClient();
+    console.log(user)
+
     return (
         <header className="flex justify-between items-center py-4 px-7 border-b">
             <Image src="/vercel.svg" className="w-[40px] h-[40px]" alt="Logo" width={40} height={40} />
@@ -34,6 +38,10 @@ const Header = () => {
                             )
                         })
                     }
+                    {
+                        user ? <LogoutLink> Logout </LogoutLink> : <LoginLink> Login </LoginLink>
+                    }
+
                 </ul>
             </nav>
         </header>

@@ -1,3 +1,5 @@
+import prisma from "@/lib/db";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 const Post = async ({ params }: {
@@ -5,8 +7,15 @@ const Post = async ({ params }: {
 }) => {
 
     const response = await fetch(`https://dummyjson.com/posts/${params.id}`);
-    const post = await response.json()
-
+    const post = await prisma.post.findUnique({
+        where: {
+            id: parseInt(params.id)
+        }
+    })
+    
+    if(!post){
+        notFound()
+    }
     return (
         <main className="pt-24 px-7 text-center">
             <Suspense fallback="Loading...">
